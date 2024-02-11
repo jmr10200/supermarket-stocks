@@ -1,3 +1,11 @@
+## ■ 프로젝트 기술
+* java
+* spring boot, spring framework
+* Mybatis (MariaDB)
+* Thymeleaf
+* javascript
+
+<hr>
 
 ## ■ 요구사항
 
@@ -74,6 +82,7 @@
 * 5xx 에러 : 500 에러 페이지 표시
 * 그외 에러 : 404 에러 페이지 표시
 
+<hr>
 
 ## ■ 테이블 정보 ( [테이블 DDL](DDL/table_DDL.sql) )
 
