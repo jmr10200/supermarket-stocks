@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .field-error {
+              border-color: #dc3545;
+              color: #dc3545;
+        }
+        .page-item {
+              --bs-pagination-hover-bg: #dee2e6;
+        }
+    </style>
+</head>
+
+<script th:inline="javascript">
+    // 화면 로딩시 실행
+    window.addEventListener('DOMContentLoaded', function() {
+<!--        document.getElementById('selectedRange').value = 10;-->
+        const items = [[${itemListForm}]];
+        const today = new Date();
+
+        // 위험 경고 대상 날짜 (오늘 + 7일)
+        const dangerDate = new Date();
+        dangerDate.setDate(today.getDate() + 7);
+
+        // 주의 경고 대상 날짜 (오늘 + 14일)
+        const warnDate = new Date();
+        warnDate.setDate(today.getDate() + 14);
+
+        for (let i = 0; i < items.length; i++) {
+            const exDate = new Date(items[i].displayDate);
+            const targetId = items[i].id;
+
+            if (exDate < today) {
+                // 유통기한이 오늘보다 전이면 폐기대상이므로 gray out
+                document.getElementById(targetId).className = 'table-secondary';
+            } else if ( exDate >= today && exDate <= dangerDate) {
+                // 유통기한이 1주일 이내에 도달하면 위험 red
+                document.getElementById(targetId).className = 'table-danger';
+            } else if ( exDate >= today && exDate > dangerDate && exDate <= warnDate) {
+                // 유통기한이 2주일 이내에 도달하면 주의 yellow
+                document.getElementById(targetId).className = 'table-warning';
+            }
+        }
+    });
+
+    function rangeChange(){
+        const val = document.getElementById('selectedRange').value;
+        document.getElementById('displaySize').value = val;
+
+<!--        document.getElementById('lastFlag').value = 0;-->
+<!--        document.forms['itemSearch'].submit();-->
+    }
+
+    function pageSubmit(num){
+        // last NO
+        document.getElementById('lastFlag').value = 0;
+
+        const pNum = num.innerHTML;
+        document.getElementById('pageNum').value = pNum;
+        // 폼 Submit
+        document.forms['itemSearch'].submit();
+    }
+
+    function firstPage(){
+        // last NO
+        document.getElementById('lastFlag').value = 0;
+
+        //page
+        document.getElementById('pageNum').value = 1;
+
+        document.forms['itemSearch'].submit();
+    }
+
+    function lastPage(){
+        // totalPage
+        const total = [[${totalPages}]];
+        document.getElementById('totalPageNum').value = total;
+        // last YES
+        document.getElementById('lastFlag').value = 1;
+
+        document.forms['itemSearch'].submit();
+    }
+</script>
+
+<body>
+
+<div class="container" style="max-width: 900px">
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.items}">상품 목록</h2>
+    </div>
+
+    <form th:name="itemSearch" th:object="${itemSearch}" method="post" class="form-inline">
+        <div class="row">
+            <div class="col">
+                <input type="text" th:field="*{itemName}" class="form-control" th:placeholder="#{placeholder.itemName}"/>
+            </div>
+            <div class="col">
+                <input type="text" th:field="*{maxPrice}" th:errorclass="field-error" class="form-control" th:placeholder="#{placeholder.price}"/>
+                <div class="field-error" th:errors="*{maxPrice}">
+                    가격 검색 오류
+                </div>
+            </div>
+            <div class="col">
+                <button th:text="#{button.search}" type="submit" class="btn btn-secondary mb-2">검색</button>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col">
+                <div class="col">
+                    <button class="btn btn-primary float-end"
+                            th:text="#{button.addItem}"
+                            onclick="location.href='addForm.html'"
+                            th:onclick="|location.href='@{/stocks/items/add}'|"
+                            type="button">상품등록
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    <br>
+    <!-- 범례 -->
+    <div class="row">
+        <div class="col">
+        <span class="badge bg-danger text-dark bg-opacity-25 border border-danger">위험 : 유통기한 7일 이내</span>
+        <span class="badge bg-warning text-dark bg-opacity-25 border border-warning">주의 : 유통기한 14일 이내</span>
+        <span class="badge bg-secondary text-dark bg-opacity-25 border border-secondary">유통기한 경과</span>
+        </div>
+        <div class="col-md-2"> </div>
+        <!-- SELECT -->
+        <div class="col-md-2">
+            <select class="form-select" th:field="*{selectedRange}" th:onchange="rangeChange()">
+                <option th:each="rg : ${listRange}" th:value="${rg.key}" th:text="${rg.value}"
+                        th:selected="${recordSize} == ${rg.key}">10개</option>
+            </select>
+        </div>
+    </div>
+        <!-- 히든 값 : 페이징 -->
+        <input type="hidden" id="pageNum" th:field="*{pageNum}">
+        <input type="hidden" id="displaySize" th:field="*{displaySize}">
+        <input type="hidden" id="totalPageNum" th:field="*{totalPageNum}"/>
+        <input type="hidden" id="lastFlag" th:field="*{lastFlag}"/>
+
+    <hr class="my-4">
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{label.item.id}">ID</th>
+                <th th:text="#{label.item.itemName}">상품명</th>
+                <th th:text="#{label.item.price}">가격</th>
+                <th th:text="#{label.item.quantity}">수량</th>
+                <th th:text="#{label.item.expirationDate}">유통기한</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${itemListForm}" th:id="${item.id}" th:class="${item.id}">
+                <td><a href="item.html" th:href="@{/stocks/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a></td>
+                <td><a href="item.html" th:href="@{|/stocks/items/${item.id}|}" th:text="${item.itemName}">상품명</a></td>
+                <td th:text="${item.price}">10000</td>
+                <td th:text="${item.quantity}">10</td>
+                <td th:text="${item.displayDate}">2024-01-01</td>
+            </tr>
+            </tbody>
+        </table>
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li class="page-item">
+                    <!-- 처음으로 -->
+                    <a class="page-link" th:onclick="firstPage()" aria-label="First">
+                        <span aria-hidden="true" th:text="#{label.page.first}">First</span>
+                    </a>
+                </li>
+                <!-- 1부터 생성 -->
+                <li class="page-item" th:each="pgNum : ${#numbers.sequence(1,totalPages)}" th:id="|pg-num${pgNum}|"
+                    th:if="${page} < 5 ? ${page > pgNum-10 and pgNum < 11} : ${page >= pgNum-5 and page < pgNum+5}">
+                    <a class="page-link" th:id="|pg-num${pgNum}|" th:onclick="pageSubmit(this)"
+                       th:classappend="${page} == ${pgNum} ? 'active' : ''" th:text="${pgNum}" ></a>
+                </li>
+                <!-- 10개 넘으면 ... 표시 -->
+                <li class="page-item" th:if="${totalPages} > 10"><a class="page-link" th:text="...">...</a> </li>
+                <li class="page-item">
+                    <!-- 마지막으로 -->
+                    <a class="page-link" th:onclick="lastPage()" aria-label="Last">
+                        <span aria-hidden="true" th:text="#{label.page.last}">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    </form>
+</div> <!-- /container -->
+
+</body>
+</html>

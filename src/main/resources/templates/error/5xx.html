@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 600px;
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="max-width: 600px;">
+    <div class="py-5 text-center" style="margin: auto;">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="red"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon">
+                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+        </div>
+        <br>
+        <h2 th:text="#{txt.error.code.client}">500</h2>
+        <br>
+        <h2 th:text="#{txt.error.message}">페이지를 찾을 수 없습니다.</h2>
+        <br>
+        <button class="btn btn-dark btn-lg" onclick="location.href='home.html'"
+                th:text=#{button.home} th:onclick="|location.href='@{/}'|" type="button">
+            홈 화면으로
+        </button>
+    </div>
+</div> <!-- /container -->
+</div>
+</body>
+</html>

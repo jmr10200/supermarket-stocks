@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gymin.exercise.stock.repository.mapper.ItemMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO item (
+            item_name, price, quantity, open, expiration_date, delivery, item_type,
+            created_at, created_user, updated_at, updated_user, version
+        ) VALUES (
+            #{itemName}, #{price}, #{quantity}, #{open}, #{expirationDate}, #{delivery}, #{itemTypeName},
+            #{createdAt}, #{createdUser}, #{updatedAt}, #{updatedUser}, #{version}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE item
+        SET
+            item_name = #{updateParam.itemName},
+            price = #{updateParam.price},
+            quantity = #{updateParam.quantity},
+            open = #{updateParam.open},
+            delivery = #{updateParam.delivery},
+            item_type = #{updateParam.itemTypeName},
+            expiration_date = #{updateParam.expirationDate},
+            updated_at = #{updateParam.updatedAt},
+            updated_user = #{updateParam.updatedUser},
+            version = #{updateParam.version}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultType="Item">
+        SELECT
+            i.id, i.item_name, i.price, i.quantity, i.open, i.expiration_date, i.delivery,
+            i.item_type as item_type_name, c.channel_name, c.use_yn,
+            i.created_at, i.created_user, i.updated_at, i.updated_user, i.version
+        FROM item i
+            LEFT JOIN commercial_channel c
+            ON i.id = c.item_id
+        WHERE i.id = #{id}
+        ORDER BY id ASC
+    </select>
+
+    <select id="findAll" resultType="Item">
+        SELECT id, item_name, price, quantity, expiration_date
+        FROM item
+        <where>
+            <if test="itemName != null and itemName != ''">
+                AND item_name like concat('%',#{itemName},'%')
+            </if>
+            <if test="maxPrice != null">
+                AND price &lt;= #{maxPrice}
+            </if>
+        </where>
+        ORDER BY id ASC
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM item WHERE id = #{id}
+    </delete>
+
+    <select id="totalCount" resultType="Integer">
+        SELECT count(*)
+        FROM item
+        <where>
+            <if test="itemName != null and itemName != ''">
+                AND item_name like concat('%',#{itemName},'%')
+            </if>
+            <if test="maxPrice != null">
+                AND price &lt;= #{maxPrice}
+            </if>
+        </where>
+    </select>
+
+    <!-- 최신글을 처음에 배치하려면 내림차순 DESC -->
+    <select id="findByPage" resultType="Item">
+        SELECT id, item_name, price, quantity, expiration_date
+        FROM item
+        <where>
+            <if test="param.itemName != null and param.itemName != ''">
+                AND item_name like concat('%',#{param.itemName},'%')
+            </if>
+            <if test="param.maxPrice != null">
+                AND price &lt;= #{param.maxPrice}
+            </if>
+        </where>
+        ORDER BY id ASC
+        LIMIT #{offSet}, #{recordSize}
+    </select>
+
+</mapper>

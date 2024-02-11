@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gymin.exercise.stock.repository.mapper.ChannelMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        INSERT INTO commercial_channel (
+            id, item_id, channel_name, use_yn,
+            created_at, created_user, updated_at, updated_user, version
+        ) VALUES
+        <foreach collection="list" item="channel" separator=",">
+            (#{channel.id}, #{channel.itemId}, #{channel.channelName}, #{channel.useYn},
+            #{channel.createdAt}, #{channel.createdUser}, #{channel.updatedAt}, #{channel.updatedUser}, #{channel.version})
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE commercial_channel
+        SET
+            channel_name = #{channels.channelName},
+            updated_at = #{channels.updatedAt},
+            updated_user = #{channels.updatedUser},
+            version = #{channels.version}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="upsert" useGeneratedKeys="true" keyProperty="channel.id" parameterType="CommercialChannel">
+        INSERT INTO commercial_channel (
+            id, item_id, channel_name, use_yn,
+            created_at, created_user, updated_at, updated_user, version
+        ) VALUE
+            (#{channel.id}, #{itemId}, #{channel.channelName}, #{channel.useYn},
+            #{channel.createdAt}, #{channel.createdUser}, #{channel.updatedAt}, #{channel.updatedUser}, #{channel.version})
+        ON DUPLICATE KEY UPDATE
+            use_yn = #{channel.useYn},
+            updated_at = #{channel.updatedAt},
+            updated_user = #{channel.updatedUser},
+            version = #{channel.version}
+    </insert>
+
+    <select id="findById" resultType="CommercialChannel">
+        SELECT
+            id, item_id, channel_name, use_yn,
+            created_at, created_user, updated_at, updated_user, version
+        FROM commercial_channel
+        WHERE item_id = #{itemId}
+    </select>
+
+</mapper>

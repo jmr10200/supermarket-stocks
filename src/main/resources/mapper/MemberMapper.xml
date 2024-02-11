@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gymin.exercise.stock.repository.mapper.MemberMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member (
+            id, login_id, name, password, mail_address,
+            created_at, created_user, updated_at, updated_user, version
+        ) VALUES (
+            #{id}, #{loginId}, #{name}, #{password}, #{mailAddress},
+            #{createdAt}, #{createdUser}, #{updatedAt}, #{updatedUser}, #{version}
+        )
+    </insert>
+
+    <select id="findByLoginId" resultType="Member">
+        SELECT
+            id, login_id, name, password, mail_address,
+            created_at, created_user, updated_at, updated_user, version
+        FROM member
+        WHERE login_id = #{loginId}
+    </select>
+
+    <update id="update">
+        UPDATE item
+        SET
+            name = #{updateParam.name},
+            password = #{updateParam.password},
+            mail_address = #{updateParam.mailAddress},
+            updated_at = #{updateParam.updatedAt},
+            updated_user = #{updateParam.updatedUser},
+            version = #{updateParam.version}
+        WHERE login_id = #{loginId}
+    </update>
+
+</mapper>
