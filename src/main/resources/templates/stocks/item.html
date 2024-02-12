@@ -87,10 +87,12 @@
                     th:onclick="|location.href='@{/stocks/items/{itemId}/edit(itemId=${itemForm.id})}'|"
                     type="button">상품 수정</button>
         </div>
+        <!-- Button trigger modal -->
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     th:text="#{button.delete}"
                     onclick="location.href='editForm.html'"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal"
                     th:onclick="|location.href='@{/stocks/items/{itemId}/del(itemId=${itemForm.id})}'|"
                     type="button">상품 삭제</button>
         </div>
@@ -98,11 +100,10 @@
             <button class="w-100 btn btn-secondary btn-lg"
                     th:text="#{button.list}"
                     onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/stocks/items(page=1, recordSize=#{page.record.size})}'|"
+                    th:onclick="|location.href='@{/stocks/items}'|"
                     type="button">목록으로</button>
         </div>
     </div>
-
 </div> <!-- /container -->
 </body>
 </html>
