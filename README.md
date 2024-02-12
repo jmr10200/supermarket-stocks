@@ -165,3 +165,48 @@
 ### 4. ERD
 
 <img src="img/ERD-1.png" width="800px" title="ERD" alt="erd-1"></img>
+
+
+<br><hr>
+
+## <화면>
+
+##### 1. 홈 화면
+<img src="img/home-1.png" width="800px" title="홈화면" alt="home-1"></img>
+
+##### 2. 회원 가입 화면
+<img src="img/sign-up-1.png" width="800px" title="회원가입1" alt="sign-up-1"></img>
+
+##### 3. 회원 가입 화면 : 아이디 중복체크
+<img src="img/sign-up-2.png" width="800px" title="회원가입2 ID 중복체크" alt="sign-up-2"></img>
+
+##### 4. 회원 가입 화면 : 필수 입력 체크
+<img src="img/sign-up-3.png" width="800px" title="회원가입3 입력체크" alt="sign-up-3"></img>
+
+##### 5. 로그인 화면
+<img src="img/login-1.png" width="800px" title="로그인화면" alt="login-1"></img>
+
+##### 6. 로그인 성공 화면 : 로그인 유저 표시
+<img src="img/login-2.png" width="800px" title="로그인 성공화면" alt="login-2"></img>
+
+##### 7. 상품 목록 화면 (로그인 상태)
+미로그인 상태에서 주소로 상품목록화면 접근하면 로그인 화면 표시
+<img src="img/list-1.png" width="800px" title="상품 목록(리스트) 화면" alt="list-1"></img>
+
+##### 8. 상품 상세 화면 (상품 목록에서 ID 또는 상품명 클릭시 이동)
+<img src="img/detail-1.png" width="800px" title="상품 상세 화면" alt="detail-1"></img>
+
+##### 9. 상품 등록 화면
+<img src="img/add-1.png" width="800px" title="상품 등록 화면" alt="add-1"></img>
+
+##### 10. 가격제한(1000), 30개 보기 검색
+<img src="img/search-1.png" width="800px" title="상품 검색 화면1" alt="search-1"></img>
+
+##### 11. 상품명(item), 50개 보기 검색
+<img src="img/search-2.png" width="800px" title="상품 검색 화면2" alt="search-2"></img>
+
+##### 12. 404 에러 표시 (4xx)
+<img src="img/4xx.png" width="800px" title="4xx 에러 발생시 화면" alt="4xx"></img>
+
+##### 13. 500 에러 표시 (5xx)
+<img src="img/5xx.png" width="800px" title="5xx 에러 발생시 화면" alt="5xx"></img>
