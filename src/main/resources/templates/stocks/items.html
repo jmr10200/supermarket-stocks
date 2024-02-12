@@ -17,6 +17,8 @@
 <script th:inline="javascript">
     // 화면 로딩시 실행
     window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('pageNum').value = 1;
+        document.getElementById('lastFlag').value = 0;
 <!--        document.getElementById('selectedRange').value = 10;-->
         const items = [[${itemListForm}]];
         const today = new Date();
