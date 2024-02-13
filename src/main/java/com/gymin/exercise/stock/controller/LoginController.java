@@ -48,6 +48,7 @@ public class LoginController {
 
         // validation
         if (bindingResult.hasErrors()) {
+            log.info("validate login info");
             return "login/loginForm";
         }
 
@@ -55,6 +56,7 @@ public class LoginController {
 
         if (Objects.isNull(loginMember)) {
             bindingResult.reject("loginFail", "ID 또는 비밀번호가 맞지 않습니다.");
+            log.info("fail login");
             return "login/loginForm";
         }
 
@@ -62,7 +64,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         // 세션에 로그인 정보 저정
         session.setAttribute(Constants.LOGIN_MEMBER_SESSION, loginMember);
-
+        log.info("success login");
         return "redirect:/";
     }
 
@@ -76,6 +78,7 @@ public class LoginController {
         if (session != null) {
             session.invalidate();
         }
+        log.info("success logout");
         return "redirect:/";
     }
 

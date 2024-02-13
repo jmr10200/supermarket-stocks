@@ -28,25 +28,21 @@ public class ItemService {
      * @param cond 상품 검색 조건 (이름, 가격)
      * @return 검색결과
      */
-//    public List<Item> findItemList(ItemSearchCondition cond) {
-//        List<Item> items = itemRepository.findAll(cond);
-//        return items;
-//    }
     public List<Item> findItemListPage(ItemSearchCondition cond, Integer offSet, Integer recordSize) {
         List<Item> items = itemRepository.findByPage(cond, offSet, recordSize);
         return items;
     }
 
+    /**
+     * 전체 데이터 수 취득
+     * @param cond
+     * @return
+     */
     public int findListTotalCount(ItemSearchCondition cond) {
-
         int count = itemRepository.totalCount(cond);
         return count;
     }
 
-    public void findPage(ItemSearchCondition condition) {
-        // 전체 페이지 수 취득
-        int totalCount = itemRepository.totalCount(condition);
-    }
 
     /**
      * 상품 1개 취득 (id)

@@ -8,6 +8,8 @@ import com.gymin.exercise.stock.utils.BaseTableUtils;
 import com.gymin.exercise.stock.utils.FormConvertUtils;
 import com.gymin.exercise.stock.utils.TableDataUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +94,7 @@ public class ItemController {
         List<Item> items = itemService.findItemListPage(itemSearch, offset, recordSize);
         List<ItemListForm> itemListForm = FormConvertUtils.itemListToFormList(items);
         model.addAttribute("itemListForm", itemListForm);
+        log.info("display item list");
         return "stocks/items";
     }
 
@@ -130,6 +132,7 @@ public class ItemController {
         List<ItemListForm> itemListForm = FormConvertUtils.itemListToFormList(items);
         model.addAttribute("itemListForm", itemListForm);
         model.addAttribute("itemSearch", itemSearch);
+        log.info("search item list");
         return "stocks/items";
     }
 
@@ -144,6 +147,7 @@ public class ItemController {
         List<Item> item = itemService.findById(itemId);
         ItemForm itemForm = FormConvertUtils.itemsDtoToForm(item);
         model.addAttribute("itemForm", itemForm);
+        log.info("display item detail");
         return "stocks/item";
     }
 
@@ -155,6 +159,7 @@ public class ItemController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("itemForm", new ItemAddForm());
+        log.info("display item add");
         return "stocks/addForm";
     }
 
@@ -188,7 +193,7 @@ public class ItemController {
 
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-
+        log.info("add item");
         return "redirect:/stocks/items/{itemId}";
     }
 
@@ -204,6 +209,7 @@ public class ItemController {
         // 수정폼 매핑
         ItemEditForm itemEditForm = FormConvertUtils.itemsDtoToEditForm(item);
         model.addAttribute("itemForm", itemEditForm);
+        log.info("display item edit");
         return "stocks/editForm";
     }
 
@@ -246,6 +252,7 @@ public class ItemController {
         itemService.updateItem(itemId, updateDto, channelList);
 
         redirectAttributes.addAttribute("editStatus", true);
+        log.info("edit item");
         return "redirect:/stocks/items/{itemId}";
     }
 
@@ -257,6 +264,7 @@ public class ItemController {
     @GetMapping("/{itemId}/del")
     public String remove(@PathVariable Long itemId) {
         itemService.removeItem(itemId);
+        log.info("delete item ID={}", itemId);
         return "redirect:/stocks/items";
     }
 

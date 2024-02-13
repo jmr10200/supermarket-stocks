@@ -22,12 +22,13 @@ public class LoginService {
      */
     public Member login(String loginId, String password) {
         Member savedMember = memberRepository.findByLoginId(loginId);
-        // DB 등록되어있는 패스워드
+        if (savedMember == null) {
+            return null;
+        }
+        // DB에 등록되어있는 패스워드
         String savedPw = savedMember.getPassword();
-        log.info("savedPw={}", savedPw);
         // 입력한 패스워드
         String targetPw = EncodeUtils.sha256Encode(password);
-        log.info("pw={}", targetPw);
         // 패스워드 일치 확인
         if (!Objects.isNull(savedMember)) {
             if (savedPw.equals(targetPw)) {
