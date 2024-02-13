@@ -61,10 +61,7 @@ public class ItemController {
 
     @ModelAttribute("listRange")
     public Map<Integer, String> listRange() {
-        Map<Integer, String> listRange = new LinkedHashMap<>();
-        listRange.put(Constants.PAGE_ROW_10, "10개 보기");
-        listRange.put(Constants.PAGE_ROW_30, "30개 보기");
-        listRange.put(Constants.PAGE_ROW_50, "50개 보기");
+        Map<Integer, String> listRange = ItemSearchCondition.setRange();
         return listRange;
     }
 

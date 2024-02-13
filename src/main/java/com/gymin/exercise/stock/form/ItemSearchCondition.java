@@ -13,15 +13,12 @@ import java.util.Map;
 public class ItemSearchCondition {
     // 검색 키워드
     private String itemName;
-
-    private Integer maxPrice;
+경    private Integer maxPrice;
 
     private Integer selectedRange;
 
-    //    private Map<Integer, String> listRange;
     private Integer pageNum;
     private Integer displaySize;
-//    private Integer pgNum;
     private Integer totalPageNum;
     private Integer lastFlag;
 
@@ -32,7 +29,6 @@ public class ItemSearchCondition {
     public ItemSearchCondition(String itemName, Integer maxPrice) {
         this.itemName = itemName;
         this.maxPrice = maxPrice;
-//        this.listRange = setRange();
         // default
         this.pageNum = 1;
         this.displaySize = Constants.PAGE_ROW_10;
@@ -42,7 +38,7 @@ public class ItemSearchCondition {
         this.maxPrice = null;
     }
 
-    private Map<Integer, String> setRange() {
+    public static Map<Integer, String> setRange() {
         Map<Integer, String> listRange = new LinkedHashMap<>();
         listRange.put(Constants.PAGE_ROW_10, "10개 보기");
         listRange.put(Constants.PAGE_ROW_30, "30개 보기");
