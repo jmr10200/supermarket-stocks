@@ -41,7 +41,6 @@ public class MemberController {
         validateAddForm(memberAddForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            log.info("fail register member");
             return "members/addMemberForm";
         }
 
@@ -57,13 +56,11 @@ public class MemberController {
 
         // savedMember 가 null 이면 등록된 아이디 있음
         if (Objects.isNull(savedMember)) {
-            log.info("fail register member");
             bindingResult.reject("loginFail", "입력한 내용을 확인해주세요.");
             bindingResult.rejectValue("loginId", "member.addMemberForm.loginId",
                     null, null);
             return "members/addMemberForm";
         }
-        log.info("success register member");
         return "redirect:/";
     }
 
