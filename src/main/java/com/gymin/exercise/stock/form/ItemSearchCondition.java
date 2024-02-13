@@ -13,7 +13,7 @@ import java.util.Map;
 public class ItemSearchCondition {
     // 검색 키워드
     private String itemName;
-경    private Integer maxPrice;
+    private Integer maxPrice;
 
     private Integer selectedRange;
 
