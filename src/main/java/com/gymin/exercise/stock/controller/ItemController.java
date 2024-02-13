@@ -7,7 +7,6 @@ import com.gymin.exercise.stock.service.ItemService;
 import com.gymin.exercise.stock.utils.BaseTableUtils;
 import com.gymin.exercise.stock.utils.FormConvertUtils;
 import com.gymin.exercise.stock.utils.TableDataUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +22,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/stocks/items")
-@RequiredArgsConstructor
-@Slf4j
 public class ItemController {
 
     @Autowired
